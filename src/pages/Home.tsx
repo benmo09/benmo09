@@ -1,12 +1,51 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useAuctions } from '../hooks/useAuctions'
 import AuctionCard from '../components/AuctionCard'
+import TikTokMode from '../components/TikTokMode'
 
 export default function Home() {
   const { auctions } = useAuctions()
+  const [mode, setMode] = useState<'website' | 'tiktok'>('website')
 
+  // TikTok Mode
+  if (mode === 'tiktok' && auctions.length > 0) {
+    return (
+      <div className="relative">
+        <TikTokMode auctions={auctions} />
+
+        {/* Mode Toggle Button */}
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setMode('website')}
+          className="fixed top-6 left-6 z-50 bg-white/90 backdrop-blur text-primary px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-white transition-all"
+        >
+          🌐 Website Mode
+        </motion.button>
+      </div>
+    )
+  }
+
+  // Website Mode
   return (
     <div className="space-y-8">
+      {/* Mode Toggle Button */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex justify-end"
+      >
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setMode('tiktok')}
+          className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-full font-bold text-lg shadow-warm hover:shadow-lg transition-all"
+        >
+          ▶️ TikTok Mode
+        </motion.button>
+      </motion.div>
+
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
