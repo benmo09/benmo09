@@ -16,7 +16,7 @@ export default function Checkout() {
     sellerId: 'seller1',
   }
 
-  const handlePaymentSuccess = async (paymentMethodId: string) => {
+  const handlePaymentSuccess = async () => {
     try {
       setIsProcessing(true)
       // Process purchase through Firebase

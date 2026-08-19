@@ -3,7 +3,7 @@ import { useAuctions } from '../hooks/useAuctions'
 import AuctionCard from '../components/AuctionCard'
 
 export default function Home() {
-  const { auctions, loading } = useAuctions()
+  const { auctions } = useAuctions()
 
   return (
     <div className="space-y-8">

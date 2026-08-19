@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   OAuthProvider,
+  updateProfile,
 } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
@@ -39,7 +40,7 @@ export const useAuth = () => {
 
       if (displayName && result.user) {
         // Update profile with display name
-        await result.user.updateProfile({ displayName });
+        await updateProfile(result.user, { displayName });
       }
 
       return result.user;

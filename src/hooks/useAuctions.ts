@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ref, onValue, query, orderByChild, limitToFirst } from 'firebase/database';
+import { ref, onValue, query, limitToFirst } from 'firebase/database';
 import { database } from '../config/firebase';
 
 export interface Auction {
@@ -96,7 +96,6 @@ export const useAuctions = () => {
 // Mock data for development
 function getMockAuctions(): Auction[] {
   const now = Date.now();
-  const dayInMs = 24 * 60 * 60 * 1000;
 
   return [
     {

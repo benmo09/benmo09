@@ -1,5 +1,4 @@
-import { functions } from 'firebase/app';
-import { httpsCallable } from 'firebase/functions';
+import { httpsCallable, getFunctions } from 'firebase/functions';
 import { getApp } from 'firebase/app';
 
 /**
@@ -12,10 +11,8 @@ export async function processPurchase(
 ) {
   try {
     const app = getApp();
-    const processPurchaseFn = httpsCallable(
-      app.functions() as any,
-      'processPurchase'
-    );
+    const functions = getFunctions(app);
+    const processPurchaseFn = httpsCallable(functions, 'processPurchase');
 
     const result = await processPurchaseFn({
       auctionId,
@@ -45,10 +42,8 @@ export async function createAuction(
 ) {
   try {
     const app = getApp();
-    const createAuctionFn = httpsCallable(
-      app.functions() as any,
-      'createAuction'
-    );
+    const functions = getFunctions(app);
+    const createAuctionFn = httpsCallable(functions, 'createAuction');
 
     const result = await createAuctionFn({
       productName,
@@ -77,10 +72,8 @@ export async function processWithdrawal(
 ) {
   try {
     const app = getApp();
-    const processWithdrawalFn = httpsCallable(
-      app.functions() as any,
-      'processWithdrawal'
-    );
+    const functions = getFunctions(app);
+    const processWithdrawalFn = httpsCallable(functions, 'processWithdrawal');
 
     const result = await processWithdrawalFn({
       amount,
