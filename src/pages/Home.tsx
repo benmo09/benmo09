@@ -1,70 +1,9 @@
-import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useAuctions } from '../hooks/useAuctions'
 import AuctionCard from '../components/AuctionCard'
 
-interface Auction {
-  id: string
-  name: string
-  image: string
-  startPrice: number
-  currentPrice: number
-  timeRemaining: number
-  emoji: string
-}
-
 export default function Home() {
-  const [auctions, setAuctions] = useState<Auction[]>([
-    {
-      id: '1',
-      name: 'iPhone 15 Pro',
-      image: '📱',
-      emoji: '📱',
-      startPrice: 10000,
-      currentPrice: 3450,
-      timeRemaining: 155,
-    },
-    {
-      id: '2',
-      name: 'MacBook Air M3',
-      image: '💻',
-      emoji: '💻',
-      startPrice: 12000,
-      currentPrice: 7200,
-      timeRemaining: 312,
-    },
-    {
-      id: '3',
-      name: 'iPad Pro 12.9"',
-      image: '🖥️',
-      emoji: '🖥️',
-      startPrice: 6000,
-      currentPrice: 2800,
-      timeRemaining: 425,
-    },
-    {
-      id: '4',
-      name: 'AirPods Pro',
-      image: '🎧',
-      emoji: '🎧',
-      startPrice: 2500,
-      currentPrice: 890,
-      timeRemaining: 198,
-    },
-  ])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAuctions((prev) =>
-        prev.map((auction) => ({
-          ...auction,
-          currentPrice: Math.max(auction.currentPrice - 10, auction.startPrice * 0.1),
-          timeRemaining: Math.max(auction.timeRemaining - 1, 0),
-        }))
-      )
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
+  const { auctions, loading } = useAuctions()
 
   return (
     <div className="space-y-8">

@@ -1,0 +1,59 @@
+{
+  "rules": {
+    "auctions": {
+      ".read": true,
+      ".write": false,
+      "$auctionId": {
+        ".validate": "newData.hasChildren(['productName', 'emoji', 'originalPrice', 'currentPrice', 'minPrice'])",
+        "productName": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "originalPrice": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "currentPrice": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "minPrice": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "status": {
+          ".validate": "newData.val() === 'active' || newData.val() === 'sold' || newData.val() === 'ended'"
+        }
+      }
+    },
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid || root.child('users').child($uid).child('role').val() === 'admin'",
+        ".write": "$uid === auth.uid",
+        "purchases": {
+          ".read": "$uid === auth.uid",
+          ".write": false
+        },
+        "earnings": {
+          ".read": "$uid === auth.uid",
+          ".write": false
+        }
+      }
+    },
+    "transactions": {
+      ".read": "auth != null",
+      ".write": false,
+      "$transactionId": {
+        ".validate": "newData.hasChildren(['auctionId', 'buyerId', 'sellerId', 'price'])"
+      }
+    },
+    "withdrawals": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$withdrawalId": {
+        ".read": "data.child('sellerId').val() === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin'",
+        ".write": "data.child('sellerId').val() === auth.uid"
+      }
+    },
+    "analytics": {
+      ".read": true,
+      ".write": false
+    }
+  }
+}

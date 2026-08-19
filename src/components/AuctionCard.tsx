@@ -1,23 +1,17 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-
-interface Auction {
-  id: string
-  name: string
-  emoji: string
-  startPrice: number
-  currentPrice: number
-  timeRemaining: number
-}
+import { Auction } from '../hooks/useAuctions'
 
 export default function AuctionCard({ auction }: { auction: Auction }) {
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
+    const hours = Math.floor(seconds / 3600)
+    const mins = Math.floor((seconds % 3600) / 60)
     const secs = seconds % 60
+    if (hours > 0) return `${hours}h ${mins}m`
     return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
-  const discount = Math.round(((auction.startPrice - auction.currentPrice) / auction.startPrice) * 100)
+  const discount = Math.round(((auction.originalPrice - auction.currentPrice) / auction.originalPrice) * 100)
   const isUrgent = auction.timeRemaining < 60
 
   return (
@@ -47,7 +41,7 @@ export default function AuctionCard({ auction }: { auction: Auction }) {
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold text-dark mb-4">{auction.name}</h3>
+        <h3 className="text-xl font-bold text-dark mb-4">{auction.productName}</h3>
 
         {/* Price Section */}
         <div className="mb-4 space-y-2">
@@ -64,7 +58,7 @@ export default function AuctionCard({ auction }: { auction: Auction }) {
           </div>
           <div className="flex justify-between text-sm text-gray-500">
             <span>מחיר מקורי:</span>
-            <span className="line-through">₪{auction.startPrice.toLocaleString('he-IL')}</span>
+            <span className="line-through">₪{auction.originalPrice.toLocaleString('he-IL')}</span>
           </div>
         </div>
 

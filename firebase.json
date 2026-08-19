@@ -1,0 +1,54 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "cleanUrls": true,
+    "trailingSlashBehavior": "remove"
+  },
+  "database": {
+    "rules": "firebase/database.rules.json"
+  },
+  "functions": [
+    {
+      "source": "firebase/functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-functions-debug.log"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firebase/firestore.rules",
+    "indexes": "firebase/firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "database": {
+      "port": 9000
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "hub": {
+      "port": 4400
+    }
+  }
+}
