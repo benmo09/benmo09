@@ -7,6 +7,8 @@ import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
 import Profile from './pages/Profile'
 import Checkout from './pages/Checkout'
+import CreateAuction from './pages/CreateAuction'
+import ProductDetail from './pages/ProductDetail'
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/create-auction" element={<CreateAuction />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
             </Routes>
           </main>
           <Footer />

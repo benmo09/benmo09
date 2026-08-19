@@ -86,10 +86,10 @@ export default function AuctionCard({ auction }: { auction: Auction }) {
           whileTap={{ scale: 0.95 }}
         >
           <Link
-            to="/checkout"
+            to={`/product/${auction.id}`}
             className="w-full btn-primary text-center block"
           >
-            קנה עכשיו
+            צפה בפרטים
           </Link>
         </motion.div>
       </div>
