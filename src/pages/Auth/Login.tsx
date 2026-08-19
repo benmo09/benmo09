@@ -1,14 +1,45 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../contexts/AuthContext'
 
 export default function Login() {
+  const navigate = useNavigate()
+  const { signIn, signInWithGoogle, signInWithApple, loading, error } = useAuthContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [localError, setLocalError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Login:', { email, password })
+    setLocalError(null)
+
+    try {
+      await signIn(email, password)
+      navigate('/')
+    } catch (err) {
+      setLocalError(err instanceof Error ? err.message : 'Login failed')
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLocalError(null)
+      await signInWithGoogle()
+      navigate('/')
+    } catch (err) {
+      setLocalError('Google login failed')
+    }
+  }
+
+  const handleAppleLogin = async () => {
+    try {
+      setLocalError(null)
+      await signInWithApple()
+      navigate('/')
+    } catch (err) {
+      setLocalError('Apple login failed')
+    }
   }
 
   return (
@@ -21,6 +52,17 @@ export default function Login() {
         <h1 className="text-3xl font-bold text-center mb-8">
           🔐 התחברות
         </h1>
+
+        {/* Error Message */}
+        {(error || localError) && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-50 border-l-4 border-accent p-4 rounded mb-6"
+          >
+            <p className="text-accent font-semibold">❌ {error || localError}</p>
+          </motion.div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Input */}
@@ -35,6 +77,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
+              required
               className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-smooth"
             />
           </motion.div>
@@ -51,6 +94,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
+              required
               className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-smooth"
             />
           </motion.div>
@@ -60,9 +104,10 @@ export default function Login() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full btn-primary py-3"
+            disabled={loading}
+            className="w-full btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            התחבר
+            {loading ? 'מחכה...' : 'התחבר'}
           </motion.button>
         </form>
 
@@ -75,16 +120,22 @@ export default function Login() {
         {/* Social Login */}
         <div className="space-y-3">
           <motion.button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={loading}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-smooth font-bold"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-smooth font-bold disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🔵 התחבר עם Google
           </motion.button>
           <motion.button
+            type="button"
+            onClick={handleAppleLogin}
+            disabled={loading}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-dark text-dark rounded-lg hover:bg-dark hover:text-white transition-smooth font-bold"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-dark text-dark rounded-lg hover:bg-dark hover:text-white transition-smooth font-bold disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🍎 התחבר עם Apple
           </motion.button>

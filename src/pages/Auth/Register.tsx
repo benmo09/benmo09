@@ -1,23 +1,44 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../contexts/AuthContext'
 
 export default function Register() {
+  const navigate = useNavigate()
+  const { signUp, loading, error } = useAuthContext()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   })
+  const [localError, setLocalError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Register:', formData)
+    setLocalError(null)
+
+    if (formData.password !== formData.confirmPassword) {
+      setLocalError('Passwords do not match')
+      return
+    }
+
+    if (formData.password.length < 6) {
+      setLocalError('Password must be at least 6 characters')
+      return
+    }
+
+    try {
+      await signUp(formData.email, formData.password, formData.name)
+      navigate('/')
+    } catch (err) {
+      setLocalError(err instanceof Error ? err.message : 'Registration failed')
+    }
   }
 
   return (
@@ -30,6 +51,17 @@ export default function Register() {
         <h1 className="text-3xl font-bold text-center mb-8">
           👤 הרשמה חדשה
         </h1>
+
+        {/* Error Message */}
+        {(error || localError) && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-50 border-l-4 border-accent p-4 rounded mb-6"
+          >
+            <p className="text-accent font-semibold">❌ {error || localError}</p>
+          </motion.div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Input */}
@@ -105,9 +137,10 @@ export default function Register() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full btn-primary py-3 mt-6"
+            disabled={loading}
+            className="w-full btn-primary py-3 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            הירשם
+            {loading ? 'מחכה...' : 'הירשם'}
           </motion.button>
         </form>
 

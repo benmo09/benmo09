@@ -1,25 +1,41 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import StripePayment from '../components/StripePayment'
+import { processPurchase } from '../lib/purchase'
 
 export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState('card')
-  const [cardData, setCardData] = useState({
-    number: '',
-    expiry: '',
-    cvv: '',
-    name: '',
-  })
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const product = {
+    id: '1',
     name: 'iPhone 15 Pro',
     emoji: '📱',
     originalPrice: 10000,
     finalPrice: 3450,
+    sellerId: 'seller1',
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Processing payment:', { paymentMethod, cardData })
+  const handlePaymentSuccess = async (paymentMethodId: string) => {
+    try {
+      setIsProcessing(true)
+      // Process purchase through Firebase
+      const result = await processPurchase(
+        product.id,
+        product.sellerId,
+        product.finalPrice
+      )
+      console.log('Purchase successful:', result)
+      // Redirect to success page or show confirmation
+    } catch (error) {
+      console.error('Purchase failed:', error)
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const handlePaymentError = (error: string) => {
+    console.error('Payment error:', error)
   }
 
   return (
@@ -58,81 +74,42 @@ export default function Checkout() {
           ))}
         </div>
 
-        {/* Credit Card Form */}
+        {/* Payment Forms */}
         {paymentMethod === 'card' && (
-          <motion.form
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            onSubmit={handleSubmit}
-            className="space-y-4"
           >
-            <div>
-              <label className="block text-sm font-bold mb-2">שם בעל הכרטיס</label>
-              <input
-                type="text"
-                value={cardData.name}
-                onChange={(e) => setCardData({ ...cardData, name: e.target.value })}
-                placeholder="בן משה"
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2">מספר כרטיס</label>
-              <input
-                type="text"
-                value={cardData.number}
-                onChange={(e) => setCardData({ ...cardData, number: e.target.value })}
-                placeholder="1234 5678 9012 3456"
-                maxLength={19}
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-bold mb-2">תאריך תפוגה</label>
-                <input
-                  type="text"
-                  value={cardData.expiry}
-                  onChange={(e) => setCardData({ ...cardData, expiry: e.target.value })}
-                  placeholder="MM/YY"
-                  maxLength={5}
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold mb-2">CVV</label>
-                <input
-                  type="text"
-                  value={cardData.cvv}
-                  onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
-                  placeholder="123"
-                  maxLength={3}
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="w-full btn-primary py-3 mt-6"
-            >
-              בצע תשלום
-            </motion.button>
-          </motion.form>
+            <StripePayment
+              amount={product.finalPrice}
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+              isLoading={isProcessing}
+            />
+          </motion.div>
         )}
 
-        {paymentMethod !== 'card' && (
+        {paymentMethod === 'google' && (
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleSubmit}
-            className="w-full btn-primary py-3 mt-6"
+            disabled={isProcessing}
+            className="w-full btn-primary py-4 mt-6 flex items-center justify-center gap-2"
           >
-            בצע תשלום
+            <span>🔵</span>
+            <span>Pay with Google Pay</span>
+          </motion.button>
+        )}
+
+        {paymentMethod === 'apple' && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            disabled={isProcessing}
+            className="w-full btn-primary py-4 mt-6 flex items-center justify-center gap-2"
+          >
+            <span>🍎</span>
+            <span>Pay with Apple Pay</span>
           </motion.button>
         )}
       </motion.div>
