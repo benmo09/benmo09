@@ -189,8 +189,13 @@ export async function confirmPayment(
       throw new Error(`Payment failed with status: ${paymentIntent.status}`)
     }
 
-    // Get the charge ID
-    const chargeId = paymentIntent.charges.data[0]?.id
+    // Get the charge ID - PaymentIntent should have latest_charge set after confirmation
+    let chargeId = paymentIntent.latest_charge as string
+    if (!chargeId) {
+      // If latest_charge is not available, fetch the charge list
+      const charges = await stripe.charges.list({ payment_intent: paymentIntentId })
+      chargeId = charges.data[0]?.id
+    }
     if (!chargeId) {
       throw new Error('No charge created')
     }

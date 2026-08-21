@@ -10,7 +10,8 @@ interface Listing {
   price: number
   quantity: number
   admin_status: string
-  users: { email: string; full_name: string }
+  users: { email: string; full_name: string }[]
+  categories: { name: string }[]
   created_at: string
 }
 
@@ -96,8 +97,8 @@ export default function ListingsManagement() {
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Seller</div>
-                  <div className="font-semibold">{listing.users.full_name}</div>
-                  <div className="text-sm text-gray-500">{listing.users.email}</div>
+                  <div className="font-semibold">{listing.users[0]?.full_name}</div>
+                  <div className="text-sm text-gray-500">{listing.users[0]?.email}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Price / Qty</div>

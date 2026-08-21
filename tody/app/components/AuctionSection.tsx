@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { placeBid, getAuctionStatus } from '@/lib/actions/bids'
+import { placeBid } from '@/lib/actions/bids'
+import { getAuctionStatus } from '@/lib/utils/bidding'
 import CountdownTimer from './CountdownTimer'
 import type { AuctionData, Bid } from '@/lib/actions/bids'
 import { formatPrice } from '@/lib/utils/pricing'
