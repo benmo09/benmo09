@@ -32,8 +32,11 @@ export default function Home() {
               <Link href="/admin" className="text-gray-300 hover:text-white transition">Admin</Link>
             </div>
             <div className="flex gap-3 items-center">
-              <Link href="/marketplace" className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition text-sm">
-                Browse
+              <Link href="/login" className="text-gray-300 hover:text-white transition text-sm">
+                Sign In
+              </Link>
+              <Link href="/signup" className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition text-sm">
+                Join Now
               </Link>
             </div>
           </div>
