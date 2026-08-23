@@ -23,11 +23,17 @@ export default function Home() {
             <div className="text-3xl font-bold text-white">
               🎁 <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">Tody</span>
             </div>
-            <div className="flex gap-4 items-center">
+            <div className="hidden md:flex gap-6 items-center text-sm">
               <Link href="/marketplace" className="text-gray-300 hover:text-white transition">Marketplace</Link>
+              <Link href="/feed" className="text-gray-300 hover:text-white transition">Feed</Link>
+              <Link href="/stays" className="text-gray-300 hover:text-white transition">Stays</Link>
+              <Link href="/last-chance-deals" className="text-gray-300 hover:text-white transition">Last Chance</Link>
+              <Link href="/seller/dashboard" className="text-gray-300 hover:text-white transition">Seller</Link>
               <Link href="/admin" className="text-gray-300 hover:text-white transition">Admin</Link>
-              <Link href="/marketplace" className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition">
-                Get Started
+            </div>
+            <div className="flex gap-3 items-center">
+              <Link href="/marketplace" className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition text-sm">
+                Browse
               </Link>
             </div>
           </div>
@@ -42,21 +48,26 @@ export default function Home() {
           </h1>
           <p className="text-xl text-gray-300 mb-8">The ultimate marketplace for deals, auctions, and offers. Connect with buyers and sellers instantly.</p>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-4 gap-4 mb-12">
             <div className="bg-white/10 backdrop-blur border border-white/20 rounded-lg p-6 hover:bg-white/20 transition">
-              <div className="text-4xl mb-2">🔨</div>
-              <h3 className="text-white font-bold mb-2">Live Auctions</h3>
-              <p className="text-gray-400">Bid on exclusive items in real-time</p>
+              <div className="text-3xl mb-2">🔨</div>
+              <h3 className="text-white font-bold mb-1 text-sm">Live Auctions</h3>
+              <p className="text-gray-400 text-xs">Bid in real-time</p>
             </div>
             <div className="bg-white/10 backdrop-blur border border-white/20 rounded-lg p-6 hover:bg-white/20 transition">
-              <div className="text-4xl mb-2">💰</div>
-              <h3 className="text-white font-bold mb-2">Make Offers</h3>
-              <p className="text-gray-400">Negotiate prices with sellers directly</p>
+              <div className="text-3xl mb-2">💰</div>
+              <h3 className="text-white font-bold mb-1 text-sm">Make Offers</h3>
+              <p className="text-gray-400 text-xs">Negotiate prices</p>
             </div>
             <div className="bg-white/10 backdrop-blur border border-white/20 rounded-lg p-6 hover:bg-white/20 transition">
-              <div className="text-4xl mb-2">📉</div>
-              <h3 className="text-white font-bold mb-2">Price Drops</h3>
-              <p className="text-gray-400">Get alerts when prices hit your target</p>
+              <div className="text-3xl mb-2">📉</div>
+              <h3 className="text-white font-bold mb-1 text-sm">Tody Drop</h3>
+              <p className="text-gray-400 text-xs">Auto-declining prices</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur border border-white/20 rounded-lg p-6 hover:bg-white/20 transition">
+              <div className="text-3xl mb-2">🎥</div>
+              <h3 className="text-white font-bold mb-1 text-sm">Tody LIVE</h3>
+              <p className="text-gray-400 text-xs">Live shopping events</p>
             </div>
           </div>
 
@@ -66,6 +77,54 @@ export default function Home() {
             </Link>
             <Link href="/admin" className="bg-white/10 backdrop-blur border border-white/30 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-lg transition text-lg">
               Admin Dashboard
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Platform Features */}
+      <section className="py-20 px-4 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center text-white mb-16">Complete Marketplace Solution</h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* For Buyers */}
+            <Link href="/feed" className="bg-white/5 backdrop-blur border border-white/10 rounded-lg p-8 hover:bg-white/10 transition group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition">📱</div>
+              <h3 className="text-xl font-bold text-white mb-2">Tody Feed</h3>
+              <p className="text-gray-400 text-sm">Vertical scrolling marketplace feed like TikTok. Discover products from sellers you follow.</p>
+            </Link>
+
+            <Link href="/stays" className="bg-white/5 backdrop-blur border border-white/10 rounded-lg p-8 hover:bg-white/10 transition group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition">🏡</div>
+              <h3 className="text-xl font-bold text-white mb-2">Tody Stays</h3>
+              <p className="text-gray-400 text-sm">Book unique vacation rentals and hospitality listings. Search by date, location, and budget.</p>
+            </Link>
+
+            <Link href="/last-chance-deals" className="bg-white/5 backdrop-blur border border-white/10 rounded-lg p-8 hover:bg-white/10 transition group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition">⏰</div>
+              <h3 className="text-xl font-bold text-white mb-2">Last Chance Deals</h3>
+              <p className="text-gray-400 text-sm">Score amazing deals on items expiring within hours. Time-sensitive offers with urgency indicators.</p>
+            </Link>
+
+            {/* For Sellers */}
+            <Link href="/seller/dashboard" className="bg-white/5 backdrop-blur border border-white/10 rounded-lg p-8 hover:bg-white/10 transition group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition">📊</div>
+              <h3 className="text-xl font-bold text-white mb-2">Seller Dashboard</h3>
+              <p className="text-gray-400 text-sm">Full control of your business. Analytics, order management, and performance metrics.</p>
+            </Link>
+
+            <div className="bg-white/5 backdrop-blur border border-white/10 rounded-lg p-8 hover:bg-white/10 transition group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition">🚀</div>
+              <h3 className="text-xl font-bold text-white mb-2">Multiple Sale Types</h3>
+              <p className="text-gray-400 text-sm">Buy Now, Auctions, Make an Offer, Tody Drop (auto-declining), and Tody LIVE shopping events.</p>
+            </div>
+
+            {/* For Admins */}
+            <Link href="/admin" className="bg-white/5 backdrop-blur border border-white/10 rounded-lg p-8 hover:bg-white/10 transition group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition">⚙️</div>
+              <h3 className="text-xl font-bold text-white mb-2">Admin Control Center</h3>
+              <p className="text-gray-400 text-sm">Manage listings, users, payments, and platform settings without coding.</p>
             </Link>
           </div>
         </div>
