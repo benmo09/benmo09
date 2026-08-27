@@ -8,6 +8,7 @@ import BuyNowSection from '@/app/components/BuyNowSection'
 import MakeOfferSection from '@/app/components/MakeOfferSection'
 import TodyDropSection from '@/app/components/TodyDropSection'
 import AuctionSection from '@/app/components/AuctionSection'
+import LivePriceDisplay from '@/app/components/LivePriceDisplay'
 import type { ListingWithDealScore } from '@/lib/types'
 import type { AuctionData } from '@/lib/actions/bids'
 import type { Offer } from '@/lib/actions/offers'
@@ -192,7 +193,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
 
           {/* Right Column - Purchase Options */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-6">
             {/* Sale Type Section */}
             {listing.sale_type === 'buy_now' && (
               <BuyNowSection
@@ -211,14 +212,13 @@ export default function ProductPage({ params }: ProductPageProps) {
               />
             )}
 
+            {/* Tody Drop - Dynamic Pricing */}
             {listing.sale_type === 'drop' && (
-              <TodyDropSection
-                listingId={listing.id}
-                startPrice={listing.price}
-                minPrice={listing.price * 0.5}
-                startTime={listing.created_at}
-                endTime={listing.expires_at}
-                onPurchase={() => console.log('Purchase initiated')}
+              <LivePriceDisplay
+                startingPrice={listing.price}
+                floorPrice={listing.price * 0.5}
+                createdAt={listing.created_at}
+                expiresAt={listing.expires_at}
               />
             )}
 
