@@ -12,7 +12,7 @@ export default function VideoFeedPage() {
   const [userLocation, setUserLocation] = useState({ lat: 40.7128, lng: -74.006 })
   const [viewMode, setViewMode] = useState<'video' | 'grid'>('video')
   const containerRef = useRef<HTMLDivElement>(null)
-  const scrollTimeout = useRef<NodeJS.Timeout>()
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   // Get user location
   useEffect(() => {
