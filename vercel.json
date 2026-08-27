@@ -1,6 +1,6 @@
 {
   "buildCommand": "cd tody && npm run build",
-  "installCommand": "cd tody && npm install",
-  "devCommand": "cd tody && npm run dev",
-  "outputDirectory": "tody/.next"
+  "outputDirectory": "tody/.next",
+  "framework": "nextjs",
+  "rootDirectory": "tody"
 }
